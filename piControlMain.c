@@ -215,6 +215,12 @@ static int __init piControlInit(void)
 		piDev_g.pibridge_ethernet_p2p_supported = 0;
 		piDev_g.pibridge_ethernet_supported = 0;
 		pr_info("RevPi Connect SE\n");
+	} else if (of_machine_is_compatible("kunbus,revpi-connect4")) {
+		piDev_g.machine_type = REVPI_CONNECT_4;
+		piDev_g.pibridge_rs485_supported = 1;
+		piDev_g.pibridge_ethernet_p2p_supported = 0;
+		piDev_g.pibridge_ethernet_supported = 0;
+		pr_info("RevPi Connect 4\n");
 	} else if (of_machine_is_compatible("kunbus,revpi-flat")) {
 		piDev_g.machine_type = REVPI_FLAT;
 		piDev_g.pibridge_rs485_supported = 0;
