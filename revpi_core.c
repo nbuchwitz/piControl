@@ -96,6 +96,7 @@ u8 revpi_core_find_gate(struct net_device *netdev, u16 module_type)
 					      PICONTROL_NOT_CONNECTED_MASK;
 			}
 		}
+		// TODO: Connect 4
 		return piCore_g.i8uLeftMGateIdx;
 	}
 
@@ -318,6 +319,7 @@ static int init_gpios(struct platform_device *pdev)
 			goto err_deinit_sniff_gpios;
 		}
 	}
+
 	return 0;
 
 err_deinit_sniff_gpios:

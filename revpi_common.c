@@ -53,6 +53,8 @@ void revpi_led_trigger_event(u16 led_prev, u16 led)
 		}
 	}
 
+	// TODO: Connect 4, LEDs A1-A5
+
 	if (piDev_g.machine_type == REVPI_FLAT) {
 		if (changed & PICONTROL_LED_A4_GREEN) {
 			led_trigger_event(&piDev_g.a4_green, (led & PICONTROL_LED_A4_GREEN) ? LED_FULL : LED_OFF);

@@ -67,8 +67,10 @@ void PiBridgeMaster_Stop(void)
 {
 	my_rt_mutex_lock(&piCore_g.lockBridgeState);
 	if (piDev_g.machine_type != REVPI_CONNECT_SE &&
-	    piDev_g.machine_type != REVPI_CORE_SE)
+	    piDev_g.machine_type != REVPI_CORE_SE &&
+	    piDev_g.machine_type != REVPI_CONNECT_4)
 		revpi_gate_fini();
+	// TODO: Connect 4
 	piCore_g.eBridgeState = piBridgeStop;
 	rt_mutex_unlock(&piCore_g.lockBridgeState);
 }
@@ -78,8 +80,10 @@ void PiBridgeMaster_Continue(void)
 	// this function can only be called, if the driver was running before
 	my_rt_mutex_lock(&piCore_g.lockBridgeState);
 	if (piDev_g.machine_type != REVPI_CONNECT_SE &&
-	    piDev_g.machine_type != REVPI_CORE_SE)
+	    piDev_g.machine_type != REVPI_CORE_SE &&
+	    piDev_g.machine_type != REVPI_CONNECT_4)
 		revpi_gate_init();
+	// TODO: Connect 4
 	piCore_g.eBridgeState = piBridgeRun;
 	eRunStatus_s = enPiBridgeMasterStatus_Continue;	// make no initialization
 	bEntering_s = bFALSE;
@@ -655,8 +659,10 @@ int PiBridgeMaster_Run(void)
 				    && piCore_g.image.usr.i16uRS485ErrorLimit2 < RevPiDevice_getErrCnt()) {
 					pr_err("too many communication errors -> set BridgeState to stopped\n");
 					if (piDev_g.machine_type != REVPI_CONNECT_SE &&
-					    piDev_g.machine_type != REVPI_CORE_SE)
+					    piDev_g.machine_type != REVPI_CORE_SE &&
+					    piDev_g.machine_type != REVPI_CONNECT_4)
 						revpi_gate_fini();
+					// TODO: Connect 4
 					piCore_g.eBridgeState = piBridgeStop;
 				} else if (piCore_g.image.usr.i16uRS485ErrorLimit1 > 0
 					   && piCore_g.image.usr.i16uRS485ErrorLimit1 < RevPiDevice_getErrCnt()) {
@@ -708,8 +714,10 @@ int PiBridgeMaster_Run(void)
 			} else {
 				pr_info("set BridgeState to running\n");
 				if (piDev_g.machine_type != REVPI_CONNECT_SE &&
-				    piDev_g.machine_type != REVPI_CORE_SE)
+				    piDev_g.machine_type != REVPI_CORE_SE &&
+				    piDev_g.machine_type != REVPI_CONNECT_4)
 					revpi_gate_init();
+				// TODO: Connect 4
 				piCore_g.eBridgeState = piBridgeRun;
 			}
 		}
@@ -833,6 +841,7 @@ int PiBridgeMaster_Run(void)
 			RevPiDevice_setStatus(PICONTROL_STATUS_X2_DIN, 0);
 		}
 	}
+	// TODO: Connect 4
 	piCore_g.image.drv.i8uStatus = RevPiDevice_getStatus();
 
 	revpi_led_trigger_event(last_led, piCore_g.image.usr.i8uLED);
@@ -845,6 +854,7 @@ int PiBridgeMaster_Run(void)
 			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.i8uLED & PICONTROL_WD_TRIGGER) ? 1 : 0);
 		}
 	}
+	// TODO: Connect 4
 	last_led = piCore_g.image.usr.i8uLED;
 
 	// update every 1 sec
