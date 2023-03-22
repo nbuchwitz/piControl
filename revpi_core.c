@@ -294,10 +294,14 @@ static int init_connect_gpios(struct platform_device *pdev)
 		return PTR_ERR(piCore_g.gpio_x2do);
 	}
 
-	piCore_g.gpio_wdtrigger = devm_gpiod_get_index(&pdev->dev, "connect", 2, GPIOD_OUT_LOW);
-	if (IS_ERR(piCore_g.gpio_wdtrigger)) {
-		dev_err(&pdev->dev, "cannot acquire gpio watchdog trigger\n");
-		return PTR_ERR(piCore_g.gpio_wdtrigger);
+	/* WD trigger is only needed on Connect / Connect SE */
+	if ((piDev_g.machine_type == REVPI_CONNECT) ||
+	    (piDev_g.machine_type == REVPI_CONNECT_SE)) {
+		piCore_g.gpio_wdtrigger = devm_gpiod_get_index(&pdev->dev, "connect", 2, GPIOD_OUT_LOW);
+		if (IS_ERR(piCore_g.gpio_wdtrigger)) {
+			dev_err(&pdev->dev, "cannot acquire gpio watchdog trigger\n");
+			return PTR_ERR(piCore_g.gpio_wdtrigger);
+		}
 	}
 	return 0;
 }
@@ -313,7 +317,8 @@ static int init_gpios(struct platform_device *pdev)
 	}
 
 	if (piDev_g.machine_type == REVPI_CONNECT ||
-	    piDev_g.machine_type == REVPI_CONNECT_SE) {
+	    piDev_g.machine_type == REVPI_CONNECT_SE ||
+	    piDev_g.machine_type == REVPI_CONNECT_4) {
 		ret = init_connect_gpios(pdev);
 		if (ret) {
 			dev_err(piDev_g.dev, "Failed to init connect gpios: %i\n",
