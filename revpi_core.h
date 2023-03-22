@@ -33,6 +33,7 @@ typedef enum {
 	piBridgeDummy = 99	// dummy value to force update of led state
 } enPiBridgeState;
 
+// TODO: Connect 4 LEDs etc
 typedef struct _SRevPiCoreImage {
 	struct {
 		u8 i8uStatus;

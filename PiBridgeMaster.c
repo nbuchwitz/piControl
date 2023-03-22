@@ -841,7 +841,7 @@ int PiBridgeMaster_Run(void)
 			RevPiDevice_setStatus(PICONTROL_STATUS_X2_DIN, 0);
 		}
 	}
-	// TODO: Connect 4
+	// TODO: Connect 4 -> needs i16u
 	piCore_g.image.drv.i8uStatus = RevPiDevice_getStatus();
 
 	revpi_led_trigger_event(last_led, piCore_g.image.usr.i8uLED);
@@ -854,7 +854,7 @@ int PiBridgeMaster_Run(void)
 			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.i8uLED & PICONTROL_WD_TRIGGER) ? 1 : 0);
 		}
 	}
-	// TODO: Connect 4
+	// TODO: Connect 4 -> needs i16u
 	last_led = piCore_g.image.usr.i8uLED;
 
 	// update every 1 sec
