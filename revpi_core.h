@@ -42,10 +42,14 @@ typedef struct _SRevPiProcessImage {
 		u8 i8uCPUFrequency;
 	} __attribute__ ((__packed__)) drv;	// 6 bytes
 	struct {
-		u8 i8uLED;
+		union {
+			u8 outputs;
+			u8 leds;
+		};
 		u16 i16uRS485ErrorLimit1;
 		u16 i16uRS485ErrorLimit2;
-	} __attribute__ ((__packed__)) usr;	// 5 bytes
+		u16 rgb_leds;
+	} __attribute__ ((__packed__)) usr;	// 5 to 7 bytes
 } __attribute__ ((__packed__)) SRevPiProcessImage;
 
 typedef struct _SRevPiCore {

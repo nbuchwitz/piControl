@@ -286,7 +286,7 @@ int PiBridgeMaster_Run(void)
 	static kbUT_Timer tTimeoutTimer_s;
 	static kbUT_Timer tConfigTimeoutTimer_s;
 	static int error_cnt;
-	static INT8U last_led;
+	static u16 last_led;
 	static unsigned long last_update;
 	int ret = 0;
 	int i;
@@ -839,17 +839,25 @@ int PiBridgeMaster_Run(void)
 	}
 	piCore_g.image.drv.i8uStatus = RevPiDevice_getStatus();
 
-	revpi_led_trigger_event(last_led, piCore_g.image.usr.i8uLED);
+	if (piDev_g.machine_type == REVPI_CONNECT_4) {
+		revpi_rgb_led_trigger_event(last_led, piCore_g.image.usr.rgb_leds);
+	} else {
+		revpi_led_trigger_event(last_led, piCore_g.image.usr.leds);
+	}
 	if (piDev_g.machine_type == REVPI_CONNECT ||
 	    piDev_g.machine_type == REVPI_CONNECT_SE) {
-		if ((last_led ^ piCore_g.image.usr.i8uLED) & PICONTROL_X2_DOUT) {
-			gpiod_set_value(piCore_g.gpio_x2do, (piCore_g.image.usr.i8uLED & PICONTROL_X2_DOUT) ? 1 : 0);
+		if ((last_led ^ piCore_g.image.usr.leds) & PICONTROL_X2_DOUT) {
+			gpiod_set_value(piCore_g.gpio_x2do, (piCore_g.image.usr.leds & PICONTROL_X2_DOUT) ? 1 : 0);
 		}
-		if ((last_led ^ piCore_g.image.usr.i8uLED) & PICONTROL_WD_TRIGGER) {
-			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.i8uLED & PICONTROL_WD_TRIGGER) ? 1 : 0);
+		if ((last_led ^ piCore_g.image.usr.leds) & PICONTROL_WD_TRIGGER) {
+			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.leds & PICONTROL_WD_TRIGGER) ? 1 : 0);
 		}
 	}
-	last_led = piCore_g.image.usr.i8uLED;
+	if (piDev_g.machine_type == REVPI_CONNECT_4) {
+		last_led = piCore_g.image.usr.rgb_leds;
+	} else {
+		last_led = piCore_g.image.usr.leds;
+	}
 
 	// update every 1 sec
 	if ((kbUT_getCurrentMs() - last_update) > 1000) {
