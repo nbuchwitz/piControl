@@ -44,6 +44,7 @@ void revpi_led_trigger_event(u16 led_prev, u16 led)
 
 	if ((piDev_g.machine_type == REVPI_CONNECT) ||
 	    (piDev_g.machine_type == REVPI_CONNECT_SE) ||
+	    (piDev_g.machine_type == REVPI_CONNECT_4) ||
 	    (piDev_g.machine_type == REVPI_FLAT)) {
 		if (changed & PICONTROL_LED_A3_GREEN) {
 			led_trigger_event(&piDev_g.a3_green, (led & PICONTROL_LED_A3_GREEN) ? LED_FULL : LED_OFF);
@@ -55,7 +56,8 @@ void revpi_led_trigger_event(u16 led_prev, u16 led)
 
 	// TODO: Connect 4, LEDs A1-A5
 
-	if (piDev_g.machine_type == REVPI_FLAT) {
+	if ((piDev_g.machine_type == REVPI_FLAT) ||
+	    (piDev_g.machine_type == REVPI_CONNECT_4)) {
 		if (changed & PICONTROL_LED_A4_GREEN) {
 			led_trigger_event(&piDev_g.a4_green, (led & PICONTROL_LED_A4_GREEN) ? LED_FULL : LED_OFF);
 		}
@@ -67,6 +69,24 @@ void revpi_led_trigger_event(u16 led_prev, u16 led)
 		}
 		if (changed & PICONTROL_LED_A5_RED) {
 			led_trigger_event(&piDev_g.a5_red, (led & PICONTROL_LED_A5_RED) ? LED_FULL : LED_OFF);
+		}
+	}
+
+	if (piDev_g.machine_type == REVPI_CONNECT_4) {
+		if (changed & PICONTROL_LED_A1_BLUE) {
+			led_trigger_event(&piDev_g.a1_blue, (led & PICONTROL_LED_A1_BLUE) ? LED_FULL : LED_OFF);
+		}
+		if (changed & PICONTROL_LED_A2_BLUE) {
+			led_trigger_event(&piDev_g.a2_blue, (led & PICONTROL_LED_A2_BLUE) ? LED_FULL : LED_OFF);
+		}
+		if (changed & PICONTROL_LED_A3_BLUE) {
+			led_trigger_event(&piDev_g.a3_blue, (led & PICONTROL_LED_A3_BLUE) ? LED_FULL : LED_OFF);
+		}
+		if (changed & PICONTROL_LED_A4_BLUE) {
+			led_trigger_event(&piDev_g.a4_blue, (led & PICONTROL_LED_A4_BLUE) ? LED_FULL : LED_OFF);
+		}
+		if (changed & PICONTROL_LED_A5_BLUE) {
+			led_trigger_event(&piDev_g.a5_blue, (led & PICONTROL_LED_A5_BLUE) ? LED_FULL : LED_OFF);
 		}
 	}
 }
