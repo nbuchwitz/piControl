@@ -33,13 +33,8 @@ EXTRA_CFLAGS = -I$(src)/
 
 EXTRA_CFLAGS += -D__KUNBUSPI_KERNEL__
 
-.PHONY: compiletime.h
-
-all: compiletime.h
+all:
 	$(MAKE) -C $(KDIR) M=$(PWD)  modules
-
-compiletime.h:
-	echo "#define COMPILETIME \""`date`"\"" > compiletime.h
 
 clean:
 	$(MAKE) -C $(KDIR) M=$(PWD) clean
