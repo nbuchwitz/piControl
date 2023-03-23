@@ -182,8 +182,6 @@ void piControlDummyReceive(INT8U i8uChar_p)
 }
 #endif
 
-#include "compiletime.h"
-
 static char *piControlClass_devnode(struct device *dev, umode_t * mode)
 {
 	if (mode)
@@ -199,8 +197,6 @@ static int __init piControlInit(void)
 	int res;
 
 	wait_for_device_probe();
-
-	pr_info("built: %s\n", COMPILETIME);
 
 	if (of_machine_is_compatible("kunbus,revpi-compact")) {
 		piDev_g.machine_type = REVPI_COMPACT;
