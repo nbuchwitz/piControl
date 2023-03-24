@@ -36,6 +36,7 @@
 #include <piIOComm.h>
 
 typedef struct _SRevPiCoreImage SRevPiCoreImage;
+typedef struct _SRevPiConnect4Image SRevPiConnect4Image;
 
 #define REV_PI_DEV_UNDEF            255
 #define REV_PI_DEV_FIRST_RIGHT      32

@@ -34,6 +34,22 @@ typedef enum {
 } enPiBridgeState;
 
 // TODO: Connect 4 LEDs etc
+typedef struct _SRevPiConnect4Image {
+	struct {
+		u8 i8uStatus;
+		u8 i8uIOCycle;
+		u16 i16uRS485ErrorCnt;
+		u8 i8uCPUTemperature;
+		u8 i8uCPUFrequency;
+	} __attribute__ ((__packed__)) drv;	// 6 bytes
+	struct {
+		u16 i16uLED;
+		u8 i8uControl;
+		u16 i16uRS485ErrorLimit1;
+		u16 i16uRS485ErrorLimit2;
+	} __attribute__ ((__packed__)) usr;	// 7 bytes
+} __attribute__ ((__packed__)) SRevPiConnect4Image;
+
 typedef struct _SRevPiCoreImage {
 	struct {
 		u8 i8uStatus;
@@ -50,7 +66,7 @@ typedef struct _SRevPiCoreImage {
 } __attribute__ ((__packed__)) SRevPiCoreImage;
 
 typedef struct _SRevPiCore {
-	SRevPiCoreImage image;
+	SRevPiConnect4Image image;
 	struct rpi_firmware *fw;
 
 	// piGate stuff

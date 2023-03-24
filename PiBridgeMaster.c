@@ -288,7 +288,7 @@ int PiBridgeMaster_Run(void)
 	static kbUT_Timer tTimeoutTimer_s;
 	static kbUT_Timer tConfigTimeoutTimer_s;
 	static int error_cnt;
-	static INT8U last_led;
+	static u16 last_led;
 	static unsigned long last_update;
 	int ret = 0;
 	int i;
@@ -845,18 +845,18 @@ int PiBridgeMaster_Run(void)
 	// TODO: Connect 4 -> needs i16u
 	piCore_g.image.drv.i8uStatus = RevPiDevice_getStatus();
 
-	revpi_led_trigger_event(last_led, piCore_g.image.usr.i8uLED);
+	revpi_led_trigger_event(last_led, piCore_g.image.usr.i16uLED);
 	if (piDev_g.machine_type == REVPI_CONNECT ||
 	    piDev_g.machine_type == REVPI_CONNECT_SE) {
-		if ((last_led ^ piCore_g.image.usr.i8uLED) & PICONTROL_X2_DOUT) {
-			gpiod_set_value(piCore_g.gpio_x2do, (piCore_g.image.usr.i8uLED & PICONTROL_X2_DOUT) ? 1 : 0);
+		if ((last_led ^ piCore_g.image.usr.i16uLED) & PICONTROL_X2_DOUT) {
+			gpiod_set_value(piCore_g.gpio_x2do, (piCore_g.image.usr.i16uLED & PICONTROL_X2_DOUT) ? 1 : 0);
 		}
-		if ((last_led ^ piCore_g.image.usr.i8uLED) & PICONTROL_WD_TRIGGER) {
-			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.i8uLED & PICONTROL_WD_TRIGGER) ? 1 : 0);
+		if ((last_led ^ piCore_g.image.usr.i16uLED) & PICONTROL_WD_TRIGGER) {
+			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.i16uLED & PICONTROL_WD_TRIGGER) ? 1 : 0);
 		}
 	}
 	// TODO: Connect 4 -> needs i16u
-	last_led = piCore_g.image.usr.i8uLED;
+	last_led = piCore_g.image.usr.i16uLED;
 
 	// update every 1 sec
 	if ((kbUT_getCurrentMs() - last_update) > 1000) {
@@ -881,11 +881,11 @@ int PiBridgeMaster_Run(void)
 		//flip_process_image(&piCore_g.image, RevPiDevice_getCoreOffset());
 		if (!test_bit(PICONTROL_DEV_FLAG_STOP_IO, &piDev_g.flags)) {
 			INT8U *p1, *p2;
-			SRevPiCoreImage *pI1, *pI2;
+			SRevPiConnect4Image *pI1, *pI2;
 			p1 = piDev_g.ai8uPI + RevPiDevice_getCoreOffset();
 			p2 = (INT8U *)&piCore_g.image;
-			pI1 = (SRevPiCoreImage *)p1;
-			pI2 = (SRevPiCoreImage *)p2;
+			pI1 = (SRevPiConnect4Image *)p1;
+			pI2 = (SRevPiConnect4Image *)p2;
 			my_rt_mutex_lock(&piDev_g.lockPI);
 			pI1->drv = pI2->drv;
 			pI2->usr = pI1->usr;
