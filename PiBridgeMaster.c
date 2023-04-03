@@ -855,6 +855,11 @@ int PiBridgeMaster_Run(void)
 			gpiod_set_value(piCore_g.gpio_wdtrigger, (piCore_g.image.usr.i16uLED & PICONTROL_WD_TRIGGER) ? 1 : 0);
 		}
 	}
+	if (piDev_g.machine_type == REVPI_CONNECT_4) {
+		if ((last_led ^ piCore_g.image.usr.i16uLED) & PICONTROL_X2_DOUT_CONNECT4) {
+			gpiod_set_value(piCore_g.gpio_x2do, (piCore_g.image.usr.i16uLED & PICONTROL_X2_DOUT_CONNECT4) ? 1 : 0);
+		}
+	}
 	// TODO: Connect 4 -> needs i16u
 	last_led = piCore_g.image.usr.i16uLED;
 
