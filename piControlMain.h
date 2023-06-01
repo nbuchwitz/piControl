@@ -70,6 +70,13 @@ typedef struct spiControlDev {
 	struct device *dev;
 	struct thermal_zone_device *thermal_zone;
 
+	// supports extension modules with RS485 based communication (eg. DIO or AIO)
+	unsigned int pibridge_rs485_supported:1;
+	// device supports RevPi gateways (only point to point communication)
+	unsigned int pibridge_ethernet_p2p_supported:1;
+	// device support extension modules with ethernet based communication (for future use)
+	unsigned int pibridge_ethernet_supported:1;
+
 	// process image stuff
 	INT8U ai8uPI[KB_PI_LEN];
 	INT8U ai8uPIDefault[KB_PI_LEN];
