@@ -65,6 +65,11 @@ int FWU_update(tpiControlInst *priv, SDevice *pDev_p)
 
 	sprintf(filename, FIRMWARE_PATH "/fw_%05d_%03d.fwu", pDev_p->sId.i16uModulType, pDev_p->sId.i16uHW_Revision);
 
+	if (pDev_p->i8uAddress == 0) {
+		printUserMsg(priv, "RevPi has no firmware to update");
+		return 0;
+	}
+
 	input = open_filename(filename, O_RDONLY);
 
 	if (!input) {
