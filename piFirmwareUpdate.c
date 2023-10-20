@@ -164,7 +164,7 @@ laError:
 		kfree(data);
 	kfree(filename);
 	close_filename(input);
-	if(ret!=1)
+	if(ret<0)
 		printUserMsg(priv, "update firmware fail");
 	return ret;
 }
